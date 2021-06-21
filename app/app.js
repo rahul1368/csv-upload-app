@@ -28,13 +28,13 @@ import '!file-loader?name=[name].[ext]!./images/favicon.ico';
 import 'file-loader?name=.htaccess!./.htaccess';
 /* eslint-enable import/no-unresolved, import/extensions */
 
+import CssBaseline from '@material-ui/core/CssBaseline';
+import { ThemeProvider } from '@material-ui/core/styles';
 import configureStore from './configureStore';
 
 // Import i18n messages
 import { translationMessages } from './i18n';
 import theme from './theme';
-import CssBaseline from '@material-ui/core/CssBaseline';
-import { ThemeProvider } from '@material-ui/core/styles';
 // Create redux store with history
 const initialState = {};
 const store = configureStore(initialState, history);

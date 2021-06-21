@@ -23,8 +23,8 @@ import FilterListIcon from '@material-ui/icons/FilterList';
 import { Container } from '@material-ui/core';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
-import { deleteEmployeesAction, getEmployeesAction } from '../HomePage/actions';
 import { useInjectSaga } from 'utils/injectSaga';
+import { deleteEmployeesAction, getEmployeesAction } from '../HomePage/actions';
 import saga from '../HomePage/saga';
 import MultiFilteringGrid from './table-component';
 const key = 'employees';
@@ -72,12 +72,17 @@ function stableSort(array, comparator) {
     if (order !== 0) return order;
     return a[1] - b[1];
   });
-  return stabilizedThis.map((el) => el[0]);
+  return stabilizedThis.map(el => el[0]);
 }
 
 const headCells = [
   { id: 'name', numeric: false, disablePadding: true, label: 'Name' },
-  { id: 'department', numeric: false, disablePadding: true, label: 'Department' },
+  {
+    id: 'department',
+    numeric: false,
+    disablePadding: true,
+    label: 'Department',
+  },
   { id: 'manager', numeric: true, disablePadding: false, label: 'Manager' },
   { id: 'salary', numeric: true, disablePadding: false, label: 'Salary' },
   { id: 'age', numeric: true, disablePadding: false, label: 'DOB' },
@@ -85,8 +90,16 @@ const headCells = [
 ];
 
 function EnhancedTableHead(props) {
-  const { classes, onSelectAllClick, order, orderBy, numSelected, rowCount, onRequestSort } = props;
-  const createSortHandler = (property) => (event) => {
+  const {
+    classes,
+    onSelectAllClick,
+    order,
+    orderBy,
+    numSelected,
+    rowCount,
+    onRequestSort,
+  } = props;
+  const createSortHandler = property => event => {
     onRequestSort(event, property);
   };
 
@@ -101,7 +114,7 @@ function EnhancedTableHead(props) {
             inputProps={{ 'aria-label': 'select all desserts' }}
           />
         </TableCell>
-        {headCells.map((headCell) => (
+        {headCells.map(headCell => (
           <TableCell
             key={headCell.id}
             align={headCell.numeric ? 'right' : 'left'}
@@ -137,7 +150,7 @@ EnhancedTableHead.propTypes = {
   rowCount: PropTypes.number.isRequired,
 };
 
-const useToolbarStyles = makeStyles((theme) => ({
+const useToolbarStyles = makeStyles(theme => ({
   root: {
     paddingLeft: theme.spacing(2),
     paddingRight: theme.spacing(1),
@@ -157,7 +170,7 @@ const useToolbarStyles = makeStyles((theme) => ({
   },
 }));
 
-const EnhancedTableToolbar = (props) => {
+const EnhancedTableToolbar = props => {
   const classes = useToolbarStyles();
   const { numSelected } = props;
 
@@ -168,11 +181,21 @@ const EnhancedTableToolbar = (props) => {
       })}
     >
       {numSelected > 0 ? (
-        <Typography className={classes.title} color="inherit" variant="subtitle1" component="div">
+        <Typography
+          className={classes.title}
+          color="inherit"
+          variant="subtitle1"
+          component="div"
+        >
           {numSelected} selected
         </Typography>
       ) : (
-        <Typography className={classes.title} variant="h6" id="tableTitle" component="div">
+        <Typography
+          className={classes.title}
+          variant="h6"
+          id="tableTitle"
+          component="div"
+        >
           Employess Data
         </Typography>
       )}
@@ -198,7 +221,7 @@ EnhancedTableToolbar.propTypes = {
   numSelected: PropTypes.number.isRequired,
 };
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(theme => ({
   root: {
     width: '100%',
   },
@@ -223,13 +246,13 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function EnhancedTable(props) {
-  const {employees,requestNewPage,pageNo,totalPages} = props;
-  const [rows,setRows] = React.useState([]);
-  React.useEffect(()=>{
-    if(employees && employees.length > 0){
+  const { employees, requestNewPage, pageNo, totalPages } = props;
+  const [rows, setRows] = React.useState([]);
+  React.useEffect(() => {
+    if (employees && employees.length > 0) {
       setRows(employees);
     }
-  },[employees]);
+  }, [employees]);
   const classes = useStyles();
   const [order, setOrder] = React.useState('asc');
   const [orderBy, setOrderBy] = React.useState('calories');
@@ -238,20 +261,20 @@ export default function EnhancedTable(props) {
   const [dense, setDense] = React.useState(false);
   const [rowsPerPage, setRowsPerPage] = React.useState(25);
 
-  React.useEffect(()=>{
-    if(page){
+  React.useEffect(() => {
+    if (page) {
       requestNewPage(page);
     }
-  },[page]);
+  }, [page]);
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === 'asc';
     setOrder(isAsc ? 'desc' : 'asc');
     setOrderBy(property);
   };
 
-  const handleSelectAllClick = (event) => {
+  const handleSelectAllClick = event => {
     if (event.target.checked) {
-      const newSelecteds = rows.map((n) => n.name);
+      const newSelecteds = rows.map(n => n.name);
       setSelected(newSelecteds);
       return;
     }
@@ -282,18 +305,19 @@ export default function EnhancedTable(props) {
     setPage(newPage);
   };
 
-  const handleChangeRowsPerPage = (event) => {
+  const handleChangeRowsPerPage = event => {
     setRowsPerPage(parseInt(event.target.value, 10));
     setPage(0);
   };
 
-  const handleChangeDense = (event) => {
+  const handleChangeDense = event => {
     setDense(event.target.checked);
   };
 
-  const isSelected = (name) => selected.indexOf(name) !== -1;
+  const isSelected = name => selected.indexOf(name) !== -1;
 
-  const emptyRows = rowsPerPage - Math.min(rowsPerPage, rows.length - page * rowsPerPage);
+  const emptyRows =
+    rowsPerPage - Math.min(rowsPerPage, rows.length - page * rowsPerPage);
 
   return (
     <div className={classes.root}>
@@ -325,7 +349,7 @@ export default function EnhancedTable(props) {
                   return (
                     <TableRow
                       hover
-                      onClick={(event) => handleClick(event, row.name)}
+                      onClick={event => handleClick(event, row.name)}
                       role="checkbox"
                       aria-checked={isItemSelected}
                       tabIndex={-1}
@@ -338,7 +362,12 @@ export default function EnhancedTable(props) {
                           inputProps={{ 'aria-labelledby': labelId }}
                         />
                       </TableCell>
-                      <TableCell component="th" id={labelId} scope="row" padding="none">
+                      <TableCell
+                        component="th"
+                        id={labelId}
+                        scope="row"
+                        padding="none"
+                      >
                         {row.name}
                       </TableCell>
                       <TableCell align="right">{row.department}</TableCell>
@@ -358,9 +387,9 @@ export default function EnhancedTable(props) {
           </Table>
         </TableContainer>
         <TablePagination
-          rowsPerPageOptions={[25, 50, 100,500]}
+          rowsPerPageOptions={[25, 50, 100, 500]}
           component="div"
-          count={(25 * totalPages) || rows.length}
+          count={25 * totalPages || rows.length}
           rowsPerPage={rowsPerPage}
           page={page}
           onChangePage={handleChangePage}
@@ -375,63 +404,68 @@ export default function EnhancedTable(props) {
   );
 }
 
-
-
-const Employees = (props)=> {
-    //useInjectSaga({ key, saga });
-    const {employees,pageNo,totalPages} = props;
-    const [currentPage,setCurrentPage] = React.useState(0);
-    const [employeesListByPageMap,setEmployeesListByPageMap] = React.useState(new Map());
-    const [employeesList,setEmployeesList] = React.useState(employees);
-    const requestNewPage = page =>{
-      setCurrentPage(page);
-      if(!employeesListByPageMap.has(page)){
-        props.getEmployeesAction(page);
-      }
+const Employees = props => {
+  // useInjectSaga({ key, saga });
+  const { employees, pageNo, totalPages } = props;
+  const [currentPage, setCurrentPage] = React.useState(0);
+  const [employeesListByPageMap, setEmployeesListByPageMap] = React.useState(
+    new Map(),
+  );
+  const [employeesList, setEmployeesList] = React.useState(employees);
+  const requestNewPage = page => {
+    setCurrentPage(page);
+    if (!employeesListByPageMap.has(page)) {
+      props.getEmployeesAction(page);
     }
-    React.useEffect(()=>{
-      setTimeout(()=>{
-        props.getEmployeesAction(currentPage);
-      },1000);
-    },[]);
-    React.useEffect(()=>{
-      if(employees &&  employees.length > 0 && !employeesListByPageMap.has(pageNo)){
-        employeesListByPageMap.set(pageNo,employees);
-        let employeesListTemp = employeesList;
-        employeesListTemp = (employeesListTemp || []).concat(employees);
-        setEmployeesList(employeesListTemp);
-      }else if(employees && employees.length === 0){
-        setEmployeesList(employees);
-      }
-    },[employees,pageNo]);
-    return(
-        <Container> 
-            <h1>Employees List</h1> 
-            {/* <EnhancedTable pageNo={pageNo} totalPages={totalPages} employees={employeesList || []} requestNewPage={requestNewPage} /> */}
-            <MultiFilteringGrid pageNo={pageNo} totalPages={totalPages} employees={employeesList || []} requestNewPage={requestNewPage} />
-        </Container>
-    )
-}
+  };
+  React.useEffect(() => {
+    setTimeout(() => {
+      props.getEmployeesAction(currentPage);
+    }, 1000);
+  }, []);
+  React.useEffect(() => {
+    if (
+      employees &&
+      employees.length > 0 &&
+      !employeesListByPageMap.has(pageNo)
+    ) {
+      employeesListByPageMap.set(pageNo, employees);
+      let employeesListTemp = employeesList;
+      employeesListTemp = (employeesListTemp || []).concat(employees);
+      setEmployeesList(employeesListTemp);
+    } else if (employees && employees.length === 0) {
+      setEmployeesList(employees);
+    }
+  }, [employees, pageNo]);
+  return (
+    <Container>
+      <h1>Employees List</h1>
+      {/* <EnhancedTable pageNo={pageNo} totalPages={totalPages} employees={employeesList || []} requestNewPage={requestNewPage} /> */}
+      <MultiFilteringGrid
+        pageNo={pageNo}
+        totalPages={totalPages}
+        employees={employeesList || []}
+        requestNewPage={requestNewPage}
+      />
+    </Container>
+  );
+};
 
-const mapStateToProps = state => {
-    return {
-      employees: state.homeReducer.employees,
-      pageNo: state.homeReducer.page,
-      totalPages: state.homeReducer.pages
-    };
-};
-  
+const mapStateToProps = state => ({
+  employees: state.homeReducer.employees,
+  pageNo: state.homeReducer.page,
+  totalPages: state.homeReducer.pages,
+});
+
 function mapDispatchToProps(dispatch) {
-return {
-    getEmployeesAction: (page) => dispatch(getEmployeesAction(page)),
+  return {
+    getEmployeesAction: page => dispatch(getEmployeesAction(page)),
     deleteEmployeesAction: () => dispatch(deleteEmployeesAction()),
-};
+  };
 }
 const withConnect = connect(
-    mapStateToProps,
-    mapDispatchToProps,
+  mapStateToProps,
+  mapDispatchToProps,
 );
-  
-export const EmployeesComp = compose(
-withConnect
-)(Employees);
+
+export const EmployeesComp = compose(withConnect)(Employees);

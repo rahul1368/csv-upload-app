@@ -1,37 +1,48 @@
 import React, { Component } from 'react';
 import { CSVReader } from 'react-papaparse';
-import { Box, Button, Container, makeStyles, Typography } from '@material-ui/core';
+import {
+  Box,
+  Button,
+  Container,
+  makeStyles,
+  Typography,
+} from '@material-ui/core';
 import Employee from '../models/Employee';
 
 const buttonRef = React.createRef();
 
-
 export default class CSVReader1 extends Component {
-  constructor(props){
+  constructor(props) {
     super(props);
   }
-  handleOpenDialog = (e) => {
+
+  handleOpenDialog = e => {
     // Note that the ref is set async, so it might be null at some point
     if (buttonRef.current) {
       buttonRef.current.open(e);
     }
   };
 
-  handleOnFileLoad = (data) => {
+  handleOnFileLoad = data => {
     console.log(data);
-    if(data && data.length > 0){
-      let employeesList = [];
-      let i=0;
-      for(const row of data){
-        if(i>0){
-          let name = row["data"][0];
-          let department = row["data"][1];
-          let manager = row["data"][2];
-          let salary = row["data"][3];
-          let dob = row["data"][4];
-          let age = row["data"][5];
+    if (data && data.length > 0) {
+      const employeesList = [];
+      let i = 0;
+      for (const row of data) {
+        if (i > 0) {
+          const name = row.data[0];
+          const department = row.data[1];
+          const manager = row.data[2];
+          const salary = row.data[3];
+          const dob = row.data[4];
+          const age = row.data[5];
           const employeeObj = new Employee({
-            name,department,manager,salary,dob,age
+            name,
+            department,
+            manager,
+            salary,
+            dob,
+            age,
           });
           employeesList.push(employeeObj);
         }
@@ -39,18 +50,17 @@ export default class CSVReader1 extends Component {
       }
       this.props.saveEmployees(employeesList);
     }
-
   };
 
   handleOnError = (err, file, inputElem, reason) => {
     console.log(err);
   };
 
-  handleOnRemoveFile = (data) => {
+  handleOnRemoveFile = data => {
     console.log(data);
   };
 
-  handleRemoveFile = (e) => {
+  handleRemoveFile = e => {
     // Note that the ref is set async, so it might be null at some point
     if (buttonRef.current) {
       buttonRef.current.removeFile(e);
@@ -59,8 +69,7 @@ export default class CSVReader1 extends Component {
 
   render() {
     return (
-      <Container fixed maxWidth={"lg"} >
-        
+      <Container fixed maxWidth="lg">
         <Box>
           <CSVReader
             ref={buttonRef}
@@ -76,11 +85,12 @@ export default class CSVReader1 extends Component {
                   display: 'flex',
                   flexDirection: 'row',
                   marginBottom: 10,
-                  padding:'12px 85px 12px 85px'
+                  padding: '12px 85px 12px 85px',
                 }}
               >
                 <Button
-                  variant="contained" color="primary"
+                  variant="contained"
+                  color="primary"
                   onClick={this.handleOpenDialog}
                   // style={{
                   //   borderRadius: 0,
@@ -108,7 +118,8 @@ export default class CSVReader1 extends Component {
                   {file && file.name}
                 </div>
                 <Button
-                  variant="contained" color="secondary"
+                  variant="contained"
+                  color="secondary"
                   // style={{
                   //   borderRadius: 0,
                   //   marginLeft: 0,
@@ -123,7 +134,6 @@ export default class CSVReader1 extends Component {
               </aside>
             )}
           </CSVReader>
-
         </Box>
       </Container>
     );

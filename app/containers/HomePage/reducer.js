@@ -8,27 +8,30 @@
  */
 
 import produce from 'immer';
-import { 
-    LOGIN_ACTION,LOGIN_SUCCESS_ACTION,SIGNUP_ACTION,SIGNUP_SUCCESS_ACTION,
-    API_ERROR,
-    SAVE_EMPLOYEES_SUCCESS_ACTION,
-    SAVE_EMPLOYEES_ACTION,
-    GET_EMPLOYEES_SUCCESS_ACTION,
-    GET_EMPLOYEES_ACTION,
-    UNAUTHORIZED_ACTION,
-    DELETE_SUCCESS_EMPLOYEES_ACTION,
-    DELETE_EMPLOYEES_ACTION,
-    SAVE_USER_ACTION
- } from './constants';
+import {
+  LOGIN_ACTION,
+  LOGIN_SUCCESS_ACTION,
+  SIGNUP_ACTION,
+  SIGNUP_SUCCESS_ACTION,
+  API_ERROR,
+  SAVE_EMPLOYEES_SUCCESS_ACTION,
+  SAVE_EMPLOYEES_ACTION,
+  GET_EMPLOYEES_SUCCESS_ACTION,
+  GET_EMPLOYEES_ACTION,
+  UNAUTHORIZED_ACTION,
+  DELETE_SUCCESS_EMPLOYEES_ACTION,
+  DELETE_EMPLOYEES_ACTION,
+  SAVE_USER_ACTION,
+} from './constants';
 
 // The initial state of the App
 export const initialState = {
   isFetching: false,
-  error:false,
-  message:null,
-  employees:null,
-  isLoggedIn:true,
-  userEmail:null
+  error: false,
+  message: null,
+  employees: null,
+  isLoggedIn: true,
+  userEmail: null,
 };
 
 /* eslint-disable default-case, no-param-reassign */
@@ -82,12 +85,12 @@ const homeReducer = (state = initialState, action) =>
       case API_ERROR:
         draft.isFetching = false;
         draft.error = true;
-        draft.message = "Something went wrong!";
+        draft.message = 'Something went wrong!';
         break;
       case UNAUTHORIZED_ACTION:
         draft.isFetching = false;
         draft.error = true;
-        draft.message = "Something went wrong!";
+        draft.message = 'Something went wrong!';
         draft.isLoggedIn = false;
         break;
       case SAVE_USER_ACTION:

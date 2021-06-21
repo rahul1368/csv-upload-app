@@ -7,7 +7,7 @@ const EmployeeSchema = new mongoose.Schema({
   department: { type: String, required: true },
   age: { type: Number, required: true },
   salary: { type: Number, required: true },
-  dob:{type: Date, required: true}
+  dob: { type: Date, required: true },
 });
 
 module.exports = mongoose.model('Employee', EmployeeSchema);

@@ -9,29 +9,36 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import { MODAL_TYPE } from '../../app.constants';
 
 export default function FormDialog(props) {
-  const {open,handleClose,modalType,isClosable} = props; 
-  const [email,setEmail] = React.useState(null);
-  const [password,setPassword] = React.useState(null);
+  const { open, handleClose, modalType, isClosable } = props;
+  const [email, setEmail] = React.useState(null);
+  const [password, setPassword] = React.useState(null);
 
   const handleCloseWrapper = () => {
     handleClose(email, password);
-  }
+  };
   return (
     <div>
       {/* <Button variant="outlined" color="primary" onClick={handleClickOpen}>
         Open form dialog
       </Button>disableBackdropClick={!isClosable} */}
-      <Dialog  open={open} onClose={handleCloseWrapper} aria-labelledby="form-dialog-title">
-        <DialogTitle id="form-dialog-title">{(modalType === MODAL_TYPE.LOGIN.id)?"Login":"Signup"}</DialogTitle>
+      <Dialog
+        open={open}
+        onClose={handleCloseWrapper}
+        aria-labelledby="form-dialog-title"
+      >
+        <DialogTitle id="form-dialog-title">
+          {modalType === MODAL_TYPE.LOGIN.id ? 'Login' : 'Signup'}
+        </DialogTitle>
         <DialogContent>
           <DialogContentText>
-            To login/signup to this website, please enter your email address and password here.
+            To login/signup to this website, please enter your email address and
+            password here.
           </DialogContentText>
           <TextField
             autoFocus
             margin="dense"
-            value={email || ""}
-            onChange={({currentTarget})=>setEmail(currentTarget.value)}
+            value={email || ''}
+            onChange={({ currentTarget }) => setEmail(currentTarget.value)}
             id="email"
             label="Email Address"
             type="email"
@@ -40,8 +47,8 @@ export default function FormDialog(props) {
           <TextField
             margin="dense"
             id="password"
-            value={password || ""}
-            onChange={({currentTarget})=>setPassword(currentTarget.value)}
+            value={password || ''}
+            onChange={({ currentTarget }) => setPassword(currentTarget.value)}
             label="Password"
             type="password"
             fullWidth
@@ -49,7 +56,7 @@ export default function FormDialog(props) {
         </DialogContent>
         <DialogActions>
           <Button onClick={handleCloseWrapper} color="primary">
-            {modalType === MODAL_TYPE.LOGIN.id ? "LOGIN" : "SIGNUP"}
+            {modalType === MODAL_TYPE.LOGIN.id ? 'LOGIN' : 'SIGNUP'}
           </Button>
           {/* <Button onClick={handleCloseWrapper} color="primary">
             Subscribe
