@@ -7,7 +7,7 @@
  *
  */
 
-import { useEffect } from React from 'react';
+import React, { useEffect } from 'react';
 import { Switch, Route } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
@@ -16,11 +16,15 @@ import NotFoundPage from 'containers/NotFoundPage/Loadable';
 import Backdrop from '@material-ui/core/Backdrop';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import { makeStyles } from '@material-ui/core/styles';
+import { createApi } from '@reduxjs/toolkit/query/react';
+import { useInjectSaga } from 'utils/injectSaga';
+import { Container } from '@material-ui/core';
 import GlobalStyle from '../../global-styles';
 import { EmployeesComp } from '../Employees';
 import ButtonAppBar from '../../components/header';
 import FormDialog from '../Login/index';
 import { MODAL_STATE, MODAL_TYPE } from '../../app.constants';
+import Test from './test';
 
 import {
   loginAction,
@@ -29,9 +33,7 @@ import {
   unauthorizedAction,
 } from '../HomePage/actions';
 import saga from '../HomePage/saga';
-import { useInjectSaga } from 'utils/injectSaga';
 import Alert from '../../components/Alert';
-import { Container } from '@material-ui/core';
 const useStyles = makeStyles(theme => ({
   backdrop: {
     zIndex: theme.zIndex.drawer + 1,
@@ -95,10 +97,8 @@ function App(props) {
       if (email && password) {
         props.loginAction(email, password);
       }
-    } else {
-      if (email && password) {
-        props.signupAction(email, password);
-      }
+    } else if (email && password) {
+      props.signupAction(email, password);
     }
   };
   const loginHandler = () => {
@@ -142,6 +142,7 @@ function App(props) {
       <Switch>
         <Route exact path="/" component={HomePage} />
         <Route exact path="/employees" component={EmployeesComp} />
+        <Route exact path="/test" component={Test} />
         <Route component={NotFoundPage} />
       </Switch>
       <GlobalStyle />
@@ -150,13 +151,13 @@ function App(props) {
 }
 
 const mapStateToProps = state => ({
-    isLoggedIn: state.homeReducer.isLoggedIn,
-    user_email: state.homeReducer.userEmail,
-    isFetching: state.homeReducer.isFetching,
-    error: state.homeReducer.error,
-    message: state.homeReducer.message,
-    success: state.homeReducer.success,
-  });
+  isLoggedIn: state.homeReducer.isLoggedIn,
+  user_email: state.homeReducer.userEmail,
+  isFetching: state.homeReducer.isFetching,
+  error: state.homeReducer.error,
+  message: state.homeReducer.message,
+  success: state.homeReducer.success,
+});
 
 function mapDispatchToProps(dispatch) {
   return {

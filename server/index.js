@@ -2,7 +2,7 @@
 // const main = require('./db-connection');
 const express = require('express');
 const logger = require('./logger');
-
+const responseObj = require('./responseobj');
 const argv = require('./argv');
 const port = require('./port');
 const setup = require('./middlewares/frontendMiddleware');
@@ -121,7 +121,9 @@ app.post('/api/authenticate', function(req, res) {
     }
   });
 });
-
+app.post('/api/users/entity-down-sync', (req, res) => {
+  res.status(200).send(responseObj);
+});
 app.get('/checkToken', withAuth, function(req, res) {
   res.status(200).send({
     success: true,
